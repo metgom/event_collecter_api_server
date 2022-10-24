@@ -6,8 +6,6 @@ services:
     build:
       context: ./
       dockerfile: Dockerfile
-    depends_on:
-      - nginx
     volumes:
       - ./app:/home/api_server/app
     expose:
@@ -27,6 +25,8 @@ services:
       - "8080:80"
     networks:
       - backend
+    depends_on:
+      - api-server
 
 networks:
   backend:

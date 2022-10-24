@@ -9,5 +9,5 @@ COPY ./app .
 
 EXPOSE 5000
 
-CMD ["gunicorn", "main:app", "-b", "0.0.0.0:5000", "-k", "uvicorn.workers.UvicornWorker", "--access-logfile", "./access.log", "--daemon"]
+RUN "gunicorn main:app -b 0.0.0.0:5000 -k uvicorn.workers.UvicornWorker --access-logfile ./access.log --daemon"]
 ENTRYPOINT ["/bin/bash"]
