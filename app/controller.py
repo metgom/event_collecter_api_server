@@ -56,7 +56,7 @@ def search(user_id) -> Tuple[bool, Union[list, None]]:
         result = []
         for row in query_result:
             row_event = SearchedEvent(**row.EventDB.__dict__)
-            if row.EventDB.order is not None:
+            if row.order_id is not None:
                 row_event.parameters = Order(order_id=row.order_id,
                                              price=row.price,
                                              currency=row.currency)
