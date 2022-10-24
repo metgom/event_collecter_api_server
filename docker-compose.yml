@@ -7,7 +7,7 @@ services:
     depends_on:
       - nginx
     volumes:
-      - ./app:./app
+      - ./app:/home/api_server/app
     expose:
       - "5000"
     networks:
@@ -17,6 +17,8 @@ services:
     build:
       context: ./nginx
       dockerfile: Dockerfile
+    volumes:
+      - ./nginx:/home/nginx/
     ports:
       - "8080:80"
     networks:
