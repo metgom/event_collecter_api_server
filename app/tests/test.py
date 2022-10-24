@@ -43,6 +43,6 @@ def test_search():
         for row in search_result[1]:
             json_obj = jsonable_encoder(row)
             print(json.dumps(json_obj, indent='\t'))
-            # print(f"{row.EventDB.user_id}\t{row.EventDB.event_id}\t{row.EventDB.order_id}\t{row.price}")
+            # print(f"{row.EventDB.user_id}\t{row.EventDB.event_id}\t{row.order_id}\t{row.price}")
     else:
         print("search fail.")

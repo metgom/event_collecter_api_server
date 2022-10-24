@@ -46,17 +46,18 @@ def search(user_id) -> Tuple[bool, Union[list, None]]:
     try:
         query_result = db_session.query(EventDB)\
             .options(joinedload(EventDB.order))\
-            .add_columns(OrderDB.price.label('price'),
+            .add_columns(OrderDB.order_id.label('order_id'),
+                         OrderDB.price.label('price'),
                          OrderDB.currency.label('currency')) \
             .outerjoin(OrderDB) \
-            .where(user_id == EventDB.user_id)\
-            .order_by(EventDB.event_datetime.desc())\
+            .where(EventDB.user_id.like(f'%{user_id}%'))\
+            .order_by(EventDB.event_datetime.desc(), EventDB.user_id.asc())\
             .all()
         result = []
         for row in query_result:
             row_event = SearchedEvent(**row.EventDB.__dict__)
-            if row.EventDB.order_id is not None:
-                row_event.parameters = Order(order_id=row.EventDB.order_id,
+            if row.EventDB.order is not None:
+                row_event.parameters = Order(order_id=row.order_id,
                                              price=row.price,
                                              currency=row.currency)
             result.append(row_event)
