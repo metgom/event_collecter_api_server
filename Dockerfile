@@ -2,9 +2,10 @@ FROM python:3.10-slim-bullseye
 
 WORKDIR /home/api_server
 
-COPY ./app /home/api_server/app
+COPY ./requirements.txt .
 RUN pip install --no-cache-dir --upgrade -r ./requirements.txt gunicorn
 RUN apt-get update && apt-get install -y vim nano curl procps net-tools
+COPY ./app .
 
 EXPOSE 5000
 
