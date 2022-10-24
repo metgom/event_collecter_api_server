@@ -1,6 +1,8 @@
 version: "3.9"
 services:
   api-server:
+    tty: true
+    container_name: api-server
     build:
       context: ./
       dockerfile: Dockerfile
@@ -14,6 +16,8 @@ services:
       - backend
 
   nginx:
+    tty: true
+    container_name: nginx
     build:
       context: ./nginx
       dockerfile: Dockerfile
