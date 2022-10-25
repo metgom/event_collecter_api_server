@@ -16,12 +16,11 @@ Method : POST
 {  
   "event_id": "string",  
   "event": "string",  
-  "event_datetime": "2022-10-24T07:41:45.087Z",  
   "user_id": "string",  
   "parameters": {  
     "order_id": "string,  
     "currency": "string",  
-    "price": 0  
+    "price": "float"
   }  
 }  
 ```
@@ -34,7 +33,7 @@ Method : POST
 ```
 
 
-- Event Search API : user_id와 부분 일치하는 이벤트 데이터를 검색합니다.  
+- Event Search API : user_id와 일치하는 이벤트 데이터를 검색합니다.  
   - http://ec2-52-79-98-181.ap-northeast-2.compute.amazonaws.com:8080/api/search 또는  
   - http://ec2-52-79-98-181.ap-northeast-2.compute.amazonaws.com:8080/api/event/{user_id}
 
@@ -46,7 +45,7 @@ Method : POST
   "user_id" : "string"
 }
 ```
-http://ec2-52-79-98-181.ap-northeast-2.compute.amazonaws.com:8080/api/event/  
+http://ec2-52-79-98-181.ap-northeast-2.compute.amazonaws.com:8080/api/event?user_id=???  
 http://ec2-52-79-98-181.ap-northeast-2.compute.amazonaws.com:8080/api/event/{user_id}  
 Method : GET
 > Reuqest Parameters : 
