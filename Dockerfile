@@ -9,4 +9,4 @@ COPY ./app ./app
 
 EXPOSE 5000
 
-ENTRYPOINT ["/bin/bash"]
+CMD ["/bin/bash"]

@@ -6,4 +6,4 @@ COPY ./nginx.conf ./apiserver.conf
 
 RUN apt-get update && apt-get install -y vim nano curl procps
 
-ENTRYPOINT ["/bin/bash"]
+CMD ["/bin/bash"]
