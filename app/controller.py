@@ -11,7 +11,7 @@ from fastapi.encoders import jsonable_encoder
 from pydantic import BaseModel
 from config.config import server_config
 from database import get_db_session, ORMBase
-from model.schema import CollectedEvent, Order, SearchedEvent
+from model.schema import CollectedEvent, Order, SearchedEvent, SearchResponse
 from model.orm_model import EventDB, OrderDB
 from sqlalchemy.exc import SQLAlchemyError
 from sqlalchemy.orm import joinedload
@@ -41,7 +41,7 @@ def send_to_sqs(event: CollectedEvent) -> bool:
     return True
 
 
-def search(user_id) -> Tuple[bool, Union[list, None]]:
+def search_event(user_id) -> Tuple[bool, Union[list, None]]:
     db_session = get_db_session()
     try:
         query_result = db_session.query(EventDB)\
@@ -50,12 +50,13 @@ def search(user_id) -> Tuple[bool, Union[list, None]]:
                          OrderDB.price.label('price'),
                          OrderDB.currency.label('currency')) \
             .outerjoin(OrderDB) \
-            .where(EventDB.user_id.like(f'%{user_id}%'))\
+            .where(user_id == EventDB.user_id)\
             .order_by(EventDB.event_datetime.desc(), EventDB.user_id.asc())\
             .all()
         result = []
         for row in query_result:
             row_event = SearchedEvent(**row.EventDB.__dict__)
+            row_event.event_datetime = row_event.event_datetime.isoformat(timespec='milliseconds')+"Z"
             if row.order_id is not None:
                 row_event.parameters = Order(order_id=row.order_id,
                                              price=row.price,
@@ -71,6 +72,12 @@ def search(user_id) -> Tuple[bool, Union[list, None]]:
         raise e
     finally:
         db_session.close()
+
+
+def search_event_to_schema(user_id: str) -> SearchResponse:
+    is_success, results = search_event(user_id)
+    result = SearchResponse(is_success=str(is_success).lower(), results=results)
+    return result
 
 
 def schema_to_model(schema: BaseModel, orm_class: Type[ORMBase]) -> ORMBase:

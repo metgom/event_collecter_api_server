@@ -1,10 +1,11 @@
 from fastapi import FastAPI
-from api.event import api_main_router, event_router
+from api.event import api_main_router
 from database import close_db
 from fastapi.middleware.cors import CORSMiddleware
+from api.metadata import tags_metadata
 
 
-app = FastAPI()
+app = FastAPI(openapi_tags=tags_metadata)
 
 app.add_middleware(
     CORSMiddleware,
@@ -14,7 +15,6 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-api_main_router.include_router(event_router)
 app.include_router(api_main_router)
 
 

@@ -3,6 +3,10 @@ from datetime import datetime
 from pydantic import BaseModel
 
 
+class EventSearchBody(BaseModel):
+    user_id: str
+
+
 class BaseResponse(BaseModel):
     is_success: str
 
