@@ -72,3 +72,28 @@ user_id = "string"
   }
 }
 ```
+
+
+### config
+app/config/config.ini 파일을 생성해 주어야 합니다. AWS 보안상의 이유로 저장소에서는 제거한 상태입니다.  
+다음과 같은 내용을 포함합니다.
+> AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY, AWS_RDS_PW 는 수동으로 입력하여야 합니다.  
+기타 변동사항이 있을 경우 반영해 주어야 합니다.
+```
+[AWS_DEFAULT]
+AWS_DEFAULT_REGION = ap-northeast-2
+AWS_ACCESS_KEY_ID = -
+AWS_SECRET_ACCESS_KEY = -
+
+[AWS_SQS]
+AWS_SQS_NAME = event-message-queue
+AWS_SQS_ARN = arn:aws:sqs:ap-northeast-2:231817374015:event-message-queue
+AWS_SQS_URL = https://sqs.ap-northeast-2.amazonaws.com/231817374015/event-message-queue
+
+[AWS_RDS]
+AWS_RDS_ID = root
+AWS_RDS_PW = -
+AWS_RDS_URL = event-db.cxude93crkg4.ap-northeast-2.rds.amazonaws.com
+AWS_RDS_PORT = 3306
+AWS_RDS_DBNAME = event_db
+```
