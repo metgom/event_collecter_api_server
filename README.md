@@ -1,17 +1,31 @@
-# event_collecter_api_server
+# 프로젝트 소개
+
+AWS 클라우드 환경에서 이벤트 수집 및 조회 기능을 갖춘 시스템을 구축하고 이벤트 생성 봇을 작성하는 미니 프로젝트를 진행하였습니다.
+
+## API Server 및 시스템 소개
 
 서버는 EC2 인스턴스 내에서 Nginx와 API Server를 각각 Docker로 실행하고 있습니다.  
-외부 연결은 Nginx가 담당하고 리버스 프록시로 Nginx와 API Server를 연결하도록 구성하였습니다.  
-Event Collect API를 호출하면 Request로 수신된 이벤트 데이터를 AWS SQS에 전송하고 사용자에게 성공여부를 전달합니다.
+외부 연결은 Nginx가 담당하고 리버스 프록시로 Nginx와 API Server를 연결하도록 구성하였습니다. WSGI로 gunicorn을 사용하였습니다.  
+
+Event Collect API를 호출하면 Request로 수신된 이벤트 데이터를 AWS SQS에 전송하고 사용자에게 성공여부를 전달합니다.  
 SQS에 전송된 데이터는 수신 트리거로 연결된 AWS Lambda의 함수에 의해 AWS RDS에 생성됩니다.
 
-> API Server는 Python 3.10, FastAPI로 작성하였습니다.  
-Lambda의 Event Worker 함수는 Python3.9, SQLAlchemy 라이브러리를 활용하여 작성되었습니다.  
-AWS RDS는 MySQL 8.0 버전으로 생성되었습니다.
+Event Search API를 호출하면 Request로 수신된 user id와 일치하는 이벤트 데이터를 조회하는 쿼리를 RDS에 전달하여 데이터를 반환합니다.
+
+> API Server는 Python 3.10에서 FastAPI와 SQLAlchemy, boto3 라이브러리를 활용하여 작성하였습니다.
+
+> Lambda의 Event Worker 함수는 Python3.9에서 SQLAlchemy 라이브러리를 활용하여 작성되었습니다.  
+https://github.com/metgom/event_collecter_worker
+
+> AWS RDS는 MySQL 8.0으로 생성되었습니다.
+https://github.com/metgom/event_collecter_db_sql/blob/main/igaworks_create_event_table.sql
+
+> 이벤트 생성 봇은 Python 3.10에서 작성되었습니다.  
+https://github.com/metgom/event_collecter_bot
 
 ![image](https://user-images.githubusercontent.com/39260975/198203598-949a2411-4348-4e8c-94ff-1beaf01f1b74.png)
 
-엔드포인트는 다음과 같습니다.
+### API Endpoint
 - Event Collect API : 이벤트를 수집합니다.  
   - http://ec2-52-79-98-181.ap-northeast-2.compute.amazonaws.com:8080/api/collect 또는  
   - http://ec2-52-79-98-181.ap-northeast-2.compute.amazonaws.com:8080/api/event  
