@@ -5,8 +5,8 @@
 Event Collect API를 호출하면 Request로 수신된 이벤트 데이터를 AWS SQS에 전송하고 사용자에게 성공여부를 전달합니다.
 SQS에 전송된 데이터는 수신 트리거로 연결된 AWS Lambda의 함수에 의해 AWS RDS에 생성됩니다.
 
-API Server는 FastAPI로 작성하였습니다.  
-Lambda의 Event Worker 함수는 Python과 SQLAlchemy 라이브러리를 활용하여 작성되었습니다.  
+> API Server는 Python 3.10, FastAPI로 작성하였습니다.  
+Lambda의 Event Worker 함수는 Python3.9, SQLAlchemy 라이브러리를 활용하여 작성되었습니다.  
 AWS RDS는 MySQL 8.0 버전으로 생성되었습니다.
 
 ![image](https://user-images.githubusercontent.com/39260975/198203598-949a2411-4348-4e8c-94ff-1beaf01f1b74.png)
