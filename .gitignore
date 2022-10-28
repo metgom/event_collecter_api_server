@@ -130,4 +130,4 @@ dmypy.json
 
 # etc
 .idea/
-.config/config.ini
+.app/config/config.ini
