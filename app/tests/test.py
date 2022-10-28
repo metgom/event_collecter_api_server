@@ -38,7 +38,7 @@ def test_send_to_sqs():
 
 
 def test_search():
-    search_result = controller.search('khs1')
+    search_result = controller.search_event('khs1')
     if search_result[0] is True:
         for row in search_result[1]:
             json_obj = jsonable_encoder(row)
