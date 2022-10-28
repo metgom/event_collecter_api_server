@@ -1,5 +1,5 @@
 from fastapi import APIRouter
-from model.schema import CollectedEvent, BaseResponse, SearchResponse, EventSearchBody
+from model.schema import BodyCollectEvent, BaseResponse, SearchResponse, BodySearchEvent
 from controller import send_to_sqs, search_event_to_schema
 
 
@@ -9,7 +9,7 @@ api_main_router = APIRouter(prefix='/api',
 
 @api_main_router.post("/collect", response_model=BaseResponse, tags=['Collect Event'])
 @api_main_router.post("/event", response_model=BaseResponse, tags=['Collect Event'])
-async def collect_event(event: CollectedEvent):
+async def collect_event(event: BodyCollectEvent):
     # send to sqs
     response = send_to_sqs(event)
     result = BaseResponse(is_success=str(response).lower())
@@ -25,7 +25,7 @@ async def search_event_get(user_id: str):
 
 
 @api_main_router.post("/search", response_model=SearchResponse, tags=['Search Event'])
-async def search_event_post(user_id: EventSearchBody):
+async def search_event_post(user_id: BodySearchEvent):
     # request to rds - post
     result = search_event_to_schema(user_id.user_id)
     return result

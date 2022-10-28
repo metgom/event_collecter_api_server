@@ -3,7 +3,7 @@ from datetime import datetime
 from pydantic import BaseModel
 
 
-class EventSearchBody(BaseModel):
+class BodySearchEvent(BaseModel):
     user_id: str
 
 
@@ -27,22 +27,25 @@ class Order(BaseModel):
 class EventBase(BaseModel):
     event_id: str
     event: str
+
+
+class BodyCollectEvent(EventBase):
+    user_id: str
+    parameters: Union[Order, None] = None
+
+
+class EventTimeBase(EventBase):
     event_datetime: Union[datetime, None] = None
 
     class Config:
         json_encoders = {datetime: lambda t: t.isoformat(timespec='milliseconds')+"Z"}
 
 
-class SearchedEvent(EventBase):
+class SearchedEvent(EventTimeBase):
     parameters: Union[Order, None] = None
 
 
-class CollectedEvent(EventBase):
-    user_id: str
-    parameters: Union[Order, None] = None
-
-
-class EventORM(EventBase):
+class EventORM(EventTimeBase):
     user_id: str
     order_id: Union[str, None] = None
 
